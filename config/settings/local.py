@@ -6,7 +6,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1']
 
 MIDDLEWARE += [
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 INSTALLED_APPS += [
