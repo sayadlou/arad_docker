@@ -50,6 +50,7 @@ class PasswordResetComplete(PasswordResetCompleteView):
 
 class Profile(LoginRequiredMixin, DetailView):
     model = UserProfile
+    login_url = reverse_lazy('account:login')
     template_name = "account/profile.html"
     context_object_name = "user"
 
