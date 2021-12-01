@@ -8,7 +8,7 @@ from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.account.models import UserProfile
 
-from .forms import MyAuthenticationForm, MyPasswordResetForm
+from .forms import MyAuthenticationForm, MyPasswordResetForm, MyPasswordChangeForm
 
 
 class Login(LoginView):
@@ -23,6 +23,7 @@ class Logout(LogoutView):
 class PasswordChange(PasswordChangeView):
     success_url = reverse_lazy('account:password_change_done')
     template_name = 'account/password_change_form.html'
+    form_class = MyPasswordChangeForm
 
 
 class PasswordChangeDone(PasswordChangeDoneView):
@@ -30,7 +31,9 @@ class PasswordChangeDone(PasswordChangeDoneView):
 
 
 class PasswordReset(PasswordResetView):
+    subject_template_name = 'account/password_reset_subject.txt'
     email_template_name = 'account/password_reset_email.html'
+    template_name = 'account/password_reset_form.html'
     success_url = reverse_lazy('account:password_reset_done')
     form_class = MyPasswordResetForm
 
