@@ -13,40 +13,44 @@ from .forms import MyAuthenticationForm, MyPasswordResetForm
 
 class Login(LoginView):
     form_class = MyAuthenticationForm
+    template_name = 'account/login.html'
 
 
 class Logout(LogoutView):
-    pass
+    template_name = 'account/logged_out.html'
 
 
 class PasswordChange(PasswordChangeView):
     success_url = reverse_lazy('account:password_change_done')
+    template_name = 'account/password_change_form.html'
 
 
 class PasswordChangeDone(PasswordChangeDoneView):
-    pass
+    template_name = 'account/password_change_done.html'
 
 
 class PasswordReset(PasswordResetView):
+    email_template_name = 'account/password_reset_email.html'
     success_url = reverse_lazy('account:password_reset_done')
     form_class = MyPasswordResetForm
 
 
 class PasswordResetDone(PasswordResetDoneView):
-    pass
+    template_name = 'account/password_reset_done.html'
 
 
 class PasswordResetConfirm(PasswordResetConfirmView):
     success_url = reverse_lazy('account:password_reset_complete')
+    template_name = 'account/password_reset_confirm.html'
 
 
 class PasswordResetComplete(PasswordResetCompleteView):
-    pass
+    template_name = 'account/password_reset_complete.html'
 
 
 class Profile(LoginRequiredMixin, DetailView):
     model = UserProfile
-    template_name = "registration/profile.html"
+    template_name = "account/profile.html"
     context_object_name = "user"
 
     def get_object(self):
