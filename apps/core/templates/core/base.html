@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="fa-ir" dir="rtl">
 <head>
@@ -37,6 +38,26 @@
             src: url("{% static "core/fonts/samim.woff"%}") format("woff"), url("{% static "core/fonts/samim.otf"%}") format("opentype");
         }
     </style>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+{#    <!-- CSS -->#}
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>#}
+{#    <!-- Default theme -->#}
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>#}
+{#    <!-- Semantic UI theme -->#}
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>#}
+{#    <!-- Bootstrap theme -->#}
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>#}
+
+    <!--
+        RTL version
+    -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+    <!-- Default theme -->
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>#}
+    <!-- Semantic UI theme -->
+{#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>#}
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
 </head>
 
 <body>
@@ -75,7 +96,7 @@
             <!-- Sign In / Sign Up-->
             <div id="signin_signup" class="wide">
                 <a href="{% url "account:profile" %}" class="btn btn-outline-primary btn-equal">ورود به پورتال</a>
-{#                <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>#}
+                {#                <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>#}
                 <a href="#" class="btn btn-secondary btn-equal">عضویت در سایت</a>
             </div>
             {% block content %}

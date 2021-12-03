@@ -16,24 +16,30 @@ class ViewTest(TestCase):
         self.assertTemplateUsed(response, 'account/login.html')
 
     def test_logout(self):
-        self.client.login(username='saeid', password='asdDFe43sefsedsd')
         response = self.client.get(reverse('account:logout'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/logged_out.html')
 
     def test_profile(self):
+        response = self.client.get(reverse('account:profile'))
+        self.assertEqual(response.status_code, 302)
         self.client.login(username='saeid', password='asdDFe43sefsedsd')
         response = self.client.get(reverse('account:profile'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/profile.html')
 
     def test_password_change(self):
+        response = self.client.get(reverse('account:password_change'))
+        self.assertEqual(response.status_code, 302)
         self.client.login(username='saeid', password='asdDFe43sefsedsd')
         response = self.client.get(reverse('account:password_change'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/password_change_form.html')
 
     def test_password_change_done(self):
+        # self.client.login(username='saeid', password='asdDFe43sefsedsd')
+        response = self.client.get(reverse('account:password_change_done'))
+        self.assertEqual(response.status_code, 302)
         self.client.login(username='saeid', password='asdDFe43sefsedsd')
         response = self.client.get(reverse('account:password_change_done'))
         self.assertEqual(response.status_code, 200)
