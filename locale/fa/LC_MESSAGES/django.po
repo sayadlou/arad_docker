@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-03 15:13+0330\n"
+"POT-Creation-Date: 2021-12-03 16:23+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\apps\account\forms.py:12
+#: .\apps\account\forms.py:13
 msgid "Password"
-msgstr "پسوورد"
+msgstr "رمز عبور"
 
-#: .\apps\account\forms.py:21
+#: .\apps\account\forms.py:22
 msgid "Email"
 msgstr "ایمیل"
 
@@ -38,14 +38,14 @@ msgstr "آدرس"
 msgid "your address"
 msgstr "آدرس شما"
 
-#: .\apps\account\templates\account\custom_field.html:8
+#: .\apps\account\templates\account\custom_field.html:6
 msgid "Enter security code"
 msgstr "کد امنیتی را وارد کنید"
 
 #: .\apps\account\templates\account\logged_out.html:11
 #: .\apps\account\templates\account\password_change_done.html:11
 #: .\apps\account\templates\account\password_reset_complete.html:10
-#: .\apps\account\templates\account\password_reset_confirm.html:53
+#: .\apps\account\templates\account\password_reset_confirm.html:65
 #: .\apps\account\templates\account\password_reset_done.html:11
 #: .\apps\account\templates\account\profile.html:10
 msgid "Profile"
@@ -56,11 +56,11 @@ msgid "You have successfully logged out!"
 msgstr "شما با موفقیت از حساب کاربری خود خارج شدید."
 
 #: .\apps\account\templates\account\login.html:11
-#: .\apps\account\templates\account\login.html:36
+#: .\apps\account\templates\account\login.html:38
 msgid "Login"
 msgstr "ورود به سایت"
 
-#: .\apps\account\templates\account\login.html:38
+#: .\apps\account\templates\account\login.html:40
 msgid "Forget Password"
 msgstr "بازیابی رمز عبور"
 
@@ -81,7 +81,7 @@ msgid "enter your email to reset your password"
 msgstr "آدرس ایمیل خود را وارد کنید. لینک بازیابی رمز عبور برای شما ارسال می گردد."
 
 #: .\apps\account\templates\account\password_change_form.html:28
-#: .\apps\account\templates\account\password_reset_form.html:29
+#: .\apps\account\templates\account\password_reset_form.html:41
 msgid "reset"
 msgstr "بازیابی رمز عبور"
 
@@ -89,11 +89,11 @@ msgstr "بازیابی رمز عبور"
 msgid "Your password has been set. You may go ahead and sign in now"
 msgstr "رمز عبور شما با موفقیت تغغیر کرد. اکنون می توانید وارد سایت شوید"
 
-#: .\apps\account\templates\account\password_reset_confirm.html:31
+#: .\apps\account\templates\account\password_reset_confirm.html:45
 msgid "Change Passoword"
 msgstr "تغییر رمز عبور"
 
-#: .\apps\account\templates\account\password_reset_confirm.html:56
+#: .\apps\account\templates\account\password_reset_confirm.html:68
 msgid "The password reset link was invalid, possibly because it has already been used.Please request a new password reset."
 msgstr "لینک بازنشانی رمز عبور معتبر نبود، احتمالاً به این دلیل که قبلاً استفاده شده است. لطفاً فرآیند بازیابی رمز عبور  را مجددا درخواست نمایید"
 

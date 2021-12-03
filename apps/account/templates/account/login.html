@@ -16,7 +16,9 @@
 
                                 <div class="form-group col-md-6">
                                     {{ form.username.errors }}
-                                    {{ form.username.label_tag }}
+                                    <div>
+                                        {{ form.username.label_tag }}
+                                    </div>
                                     {{ form.username }}
                                     {% if form.username.help_text %}
                                         <p class="help">{{ form.username.help_text|safe }}</p>
