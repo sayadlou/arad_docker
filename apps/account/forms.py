@@ -14,7 +14,7 @@ class MyAuthenticationForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': "form-control"}),
     )
-    captcha = CaptchaField(widget=CustomCaptchaTextInput(attrs={'class': "form-control"}), label='Your name')
+    captcha = CaptchaField(widget=CustomCaptchaTextInput(attrs={'class': "form-control"}))
 
 
 class MyPasswordResetForm(PasswordResetForm):
@@ -23,12 +23,12 @@ class MyPasswordResetForm(PasswordResetForm):
         max_length=254,
         widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class': "form-control"})
     )
-    captcha = CaptchaField(widget=CustomCaptchaTextInput)
+    captcha = CaptchaField(widget=CustomCaptchaTextInput(attrs={'class': "form-control"}))
 
 
 class MyPasswordChangeForm(PasswordChangeForm):
-    captcha = CaptchaField(widget=CustomCaptchaTextInput)
+    captcha = CaptchaField(widget=CustomCaptchaTextInput(attrs={'class': "form-control"}))
 
 
 class MySetPasswordForm(SetPasswordForm):
-    captcha = CaptchaField(widget=CustomCaptchaTextInput)
+    captcha = CaptchaField(widget=CustomCaptchaTextInput(attrs={'class': "form-control"}))
