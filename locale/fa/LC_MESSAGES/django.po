@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-03 16:23+0330\n"
+"POT-Creation-Date: 2021-12-08 15:44+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\apps\account\forms.py:13
+#: .\apps\account\forms.py:16
 msgid "Password"
 msgstr "رمز عبور"
 
-#: .\apps\account\forms.py:22
+#: .\apps\account\forms.py:25 .\apps\account\forms.py:102
 msgid "Email"
 msgstr "ایمیل"
+
+#: .\apps\account\forms.py:34
+#, fuzzy
+#| msgid "Password"
+msgid "Old password"
+msgstr "رمز عبور"
+
+#: .\apps\account\forms.py:40 .\apps\account\forms.py:56
+#: .\apps\account\forms.py:111
+#, fuzzy
+#| msgid "Password"
+msgid "New password"
+msgstr "رمز عبور"
+
+#: .\apps\account\forms.py:46 .\apps\account\forms.py:62
+#: .\apps\account\forms.py:117
+#, fuzzy
+#| msgid "password change"
+msgid "New password confirmation"
+msgstr "تغییر رمز عبور"
+
+#: .\apps\account\forms.py:71 .\apps\account\templates\account\profile.html:12
+msgid "username"
+msgstr "نام کاربری"
+
+#: .\apps\account\forms.py:76
+#, fuzzy
+#| msgid "first_name"
+msgid "first name"
+msgstr "نام"
+
+#: .\apps\account\forms.py:83
+#, fuzzy
+#| msgid "last_name"
+msgid "last name"
+msgstr "نام خانوادگی"
+
+#: .\apps\account\forms.py:90 .\apps\account\models.py:16
+msgid "mobile"
+msgstr ""
+
+#: .\apps\account\forms.py:96 .\apps\account\models.py:17
+msgid "phone"
+msgstr "شماره تلفن ثابت"
 
 #: .\apps\account\models.py:14
 msgid "profile picture"
@@ -38,6 +82,14 @@ msgstr "آدرس"
 msgid "your address"
 msgstr "آدرس شما"
 
+#: .\apps\account\models.py:16
+msgid "00989123456789"
+msgstr ""
+
+#: .\apps\account\models.py:17
+msgid "00982112345678"
+msgstr ""
+
 #: .\apps\account\templates\account\custom_field.html:6
 msgid "Enter security code"
 msgstr "کد امنیتی را وارد کنید"
@@ -45,7 +97,7 @@ msgstr "کد امنیتی را وارد کنید"
 #: .\apps\account\templates\account\logged_out.html:11
 #: .\apps\account\templates\account\password_change_done.html:11
 #: .\apps\account\templates\account\password_reset_complete.html:10
-#: .\apps\account\templates\account\password_reset_confirm.html:65
+#: .\apps\account\templates\account\password_reset_confirm.html:69
 #: .\apps\account\templates\account\password_reset_done.html:11
 #: .\apps\account\templates\account\profile.html:10
 msgid "Profile"
@@ -57,6 +109,7 @@ msgstr "شما با موفقیت از حساب کاربری خود خارج شد
 
 #: .\apps\account\templates\account\login.html:11
 #: .\apps\account\templates\account\login.html:38
+#: .\apps\account\templates\account\signup.html:11
 msgid "Login"
 msgstr "ورود به سایت"
 
@@ -80,8 +133,8 @@ msgstr "رمز خود را فراموش کرده اید؟"
 msgid "enter your email to reset your password"
 msgstr "آدرس ایمیل خود را وارد کنید. لینک بازیابی رمز عبور برای شما ارسال می گردد."
 
-#: .\apps\account\templates\account\password_change_form.html:28
-#: .\apps\account\templates\account\password_reset_form.html:41
+#: .\apps\account\templates\account\password_change_form.html:47
+#: .\apps\account\templates\account\password_reset_form.html:33
 msgid "reset"
 msgstr "بازیابی رمز عبور"
 
@@ -89,21 +142,17 @@ msgstr "بازیابی رمز عبور"
 msgid "Your password has been set. You may go ahead and sign in now"
 msgstr "رمز عبور شما با موفقیت تغغیر کرد. اکنون می توانید وارد سایت شوید"
 
-#: .\apps\account\templates\account\password_reset_confirm.html:45
+#: .\apps\account\templates\account\password_reset_confirm.html:49
 msgid "Change Passoword"
 msgstr "تغییر رمز عبور"
 
-#: .\apps\account\templates\account\password_reset_confirm.html:68
+#: .\apps\account\templates\account\password_reset_confirm.html:72
 msgid "The password reset link was invalid, possibly because it has already been used.Please request a new password reset."
 msgstr "لینک بازنشانی رمز عبور معتبر نبود، احتمالاً به این دلیل که قبلاً استفاده شده است. لطفاً فرآیند بازیابی رمز عبور  را مجددا درخواست نمایید"
 
 #: .\apps\account\templates\account\password_reset_done.html:14
 msgid "We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with,and check your spam folder."
 msgstr "اگر حسابی با ایمیلی که وارد کرده‌اید وجود داشته باشد، دستورالعمل‌های تنظیم رمز عبور را برای شما ایمیل کرده‌ایم. شما باید به زودی آنها را دریافت کنید. اگر ایمیلی دریافت نکردید، لطفاً مطمئن شوید که آدرسی را که با آن ثبت نام کرده بوده اید را وارد کرده اید همچنین پوشه اسپم خود را نیز بررسی نمایید."
-
-#: .\apps\account\templates\account\profile.html:12
-msgid "username"
-msgstr "نام کاربری"
 
 #: .\apps\account\templates\account\profile.html:13
 msgid "first_name"
@@ -134,13 +183,17 @@ msgstr "بازنشانی رمز عبور"
 msgid "password change"
 msgstr "تغییر رمز عبور"
 
+#: .\apps\account\templates\account\signup.html:97
+msgid "Create account"
+msgstr "ایجاد حساب کاربری"
+
 #: .\config\settings\base.py:104
 msgid "English"
-msgstr ""
+msgstr "انگلیسی"
 
 #: .\config\settings\base.py:105
 msgid "Persian"
-msgstr ""
+msgstr "پارسی"
 
 #: .\templates\captcha\image.html:3
 msgid "Play CAPTCHA as audio file"

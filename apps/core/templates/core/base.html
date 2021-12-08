@@ -97,7 +97,7 @@
             <div id="signin_signup" class="wide">
                 <a href="{% url "account:profile" %}" class="btn btn-outline-primary btn-equal">ورود به پورتال</a>
                 {#                <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>#}
-                <a href="#" class="btn btn-secondary btn-equal">عضویت در سایت</a>
+                <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>
             </div>
             {% block content %}
             {% endblock content %}

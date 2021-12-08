@@ -1,7 +1,7 @@
 import environ
 from pathlib import Path
 
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -133,7 +133,8 @@ STATICFILES_DIRS = [
 ]
 AUTH_USER_MODEL = "account.UserProfile"
 
-LOGOUT_REDIRECT_URL = ""
+LOGOUT_REDIRECT_URL = reverse_lazy('account:home')
+LOGIN_REDIRECT_URL = reverse_lazy('account:profile')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -1,10 +1,4 @@
-from captcha.fields import BaseCaptchaTextInput, CaptchaTextInput
-from django.forms import MultiWidget
-
-
-# class BaseCaptchaTextInput(MultiWidget):
-#     pass
-
+from captcha.fields import CaptchaTextInput
 
 
 class CustomCaptchaTextInput(CaptchaTextInput):

@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['arad-imeg.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['arad-imeg.herokuapp.com', '127.0.0.1']
 
 MIDDLEWARE += [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -21,3 +21,5 @@ ROOT_URLCONF = 'config.urls.local'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_email"
+
+CAPTCHA_TEST_MODE = True
