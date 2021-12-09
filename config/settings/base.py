@@ -133,7 +133,6 @@ STATICFILES_DIRS = [
 ]
 AUTH_USER_MODEL = "account.UserProfile"
 
-LOGOUT_REDIRECT_URL = reverse_lazy('account:home')
 LOGIN_REDIRECT_URL = reverse_lazy('account:profile')
 
 # Default primary key field type

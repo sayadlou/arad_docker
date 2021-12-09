@@ -8,7 +8,7 @@ class ViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        UserProfile.objects.create_user("saeid", email="aa@bb.cc", password="asdDFe43sefsedsd")
+        UserProfile.objects.create_user(username="saeid", email="aa@bb.cc", password="asdDFe43sefsedsd")
 
     def test_login(self):
         response = self.client.get(reverse('account:login'))
@@ -62,37 +62,25 @@ class ViewTest(TestCase):
         self.assertTemplateUsed(response, 'account/password_reset_complete.html')
 
     def test_signup(self):
-        my_data = {'address': "some where",
-                   'first_name': "saesrgrid",
-                   'last_name': "saessefid",
-                   'mobile': "saeid",
-                   'phone': "saeid",
-                   'username': "saeidsef",
-                   'email': "saeid@sef.csdf",
-                   'password1': "saeidDSE216.",
-                   'password2': "saeidDSE216.",
-                    'captcha_0': 'dummy-value',
-                   'captcha_1': 'PASSED',
-                   }
+        my_data = {
+            'address': 'some where',
+            'first_name': 'saesrgrid',
+            'last_name': 'saefid',
+            'mobile': 'saeid',
+            'phone': 'saeid',
+            'username': 'saedsef',
+            'email': 'saeid@sef.csdf',
+            'password1': 'saSE21a.',
+            'password2': 'saSE21a.',
+            'captcha_0': 'dummy-value',
+            'captcha_1': 'PASSED',
+        }
 
         response = self.client.post(
             reverse('account:signup'),
             data=my_data
-            # data={
-            #     "username": "sayadlou3",
-            #     "first_name": "saeid",
-            #     "last_name": "sayadlou",
-            #     "mobile": "09124633829",
-            #     "phone": "02166403092",
-            #     "email": "saeid@jgcsdf.com",
-            #     "address": "some where",
-            #     "password1": "Dkasad123.",
-            #     "password2": "Dkasad123.",
-            #     'captcha_0': 'dummy-value',
-            #     'captcha_1': 'PASSED',
-            # }
         )
         print(UserProfile.objects.all().count())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(UserProfile.objects.all().count(), 2)
         # self.assertTemplateUsed(response, 'account/password_reset_complete.html')
