@@ -30,9 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
+    'captcha',
     'apps.core',
     'apps.account',
-    'captcha',
+    'apps.contact_us',
 ]
 
 MIDDLEWARE = [

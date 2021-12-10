@@ -11,16 +11,8 @@ class Home(TemplateView):
 
 
 # Create your views here.
-class ContactUs(TemplateView):
-    template_name = 'core/home.html'
-
-    def get_context_data(self, **kwargs):
-        pass
-
-
-# Create your views here.
 class AboutUs(TemplateView):
-    template_name = 'core/home.html'
+    template_name = 'core/about_us.html'
 
     def get_context_data(self, **kwargs):
         pass

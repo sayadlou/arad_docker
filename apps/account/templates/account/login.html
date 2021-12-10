@@ -15,11 +15,11 @@
                                 {% csrf_token %}
 
                                 <div class="form-group col-md-6">
-                                    {{ form.username.errors }}
                                     <div>
                                         {{ form.username.label_tag }}
                                     </div>
                                     {{ form.username }}
+                                    {{ form.username.errors }}
                                     {% if form.username.help_text %}
                                         <p class="help">{{ form.username.help_text|safe }}</p>
                                     {% endif %}

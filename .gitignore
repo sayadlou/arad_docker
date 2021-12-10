@@ -57,3 +57,4 @@ venv.bak/
 requirements/temp.txt
 sent_email
 /sent_email/
+/.coverage

@@ -75,7 +75,6 @@ class ViewTest(TestCase):
             'captcha_0': 'dummy-value',
             'captcha_1': 'PASSED',
         }
-
         response = self.client.post(
             reverse('account:signup'),
             data=my_data
@@ -83,4 +82,3 @@ class ViewTest(TestCase):
         print(UserProfile.objects.all().count())
         self.assertEqual(response.status_code, 302)
         self.assertEqual(UserProfile.objects.all().count(), 2)
-        # self.assertTemplateUsed(response, 'account/password_reset_complete.html')

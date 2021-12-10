@@ -7,6 +7,7 @@ urlpatterns = [
     path('', include(('apps.core.urls', 'apps.core'), namespace='core')),
     path('account/', include(('apps.account.urls', 'apps.account'), namespace='account')),
     path('captcha/', include('captcha.urls')),
+    path('contact_us/', include(('apps.contact_us.urls', 'apps.contact_us'), namespace='contact_us')),
 
 ]
 

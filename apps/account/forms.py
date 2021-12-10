@@ -129,7 +129,7 @@ class UserRegisterForm(UserCreationForm):
     )
     address = forms.CharField(
         label=_("Address"),
-        widget=forms.TextInput(attrs={'class': "form-control", 'autocomplete': 'off'}),
+        widget=forms.Textarea(attrs={'class': "form-control", 'rows': '4'}),
         strip=True,
         help_text="",
     )
