@@ -3,10 +3,7 @@ from pathlib import Path
 
 from django.urls import reverse, reverse_lazy
 
-env = environ.Env(
-    DEBUG=(bool, False)
-
-)
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -31,7 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.forms',
     'captcha',
+    'ckeditor',
+    'ckeditor_uploader',
     'apps.core',
+    'apps.blog',
     'apps.account',
     'apps.contact_us',
 ]
@@ -99,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 from django.utils.translation import gettext_lazy as _
 
-LANGUAGE_CODE = 'fa'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
     ('en', _('English')),
@@ -142,3 +142,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('account:profile')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "media/image"
