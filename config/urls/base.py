@@ -6,6 +6,7 @@ from ..settings.base import MEDIA_URL, MEDIA_ROOT, STATIC_URL, STATIC_ROOT
 urlpatterns = [
     path('', include(('apps.core.urls', 'apps.core'), namespace='core')),
     path('account/', include(('apps.account.urls', 'apps.account'), namespace='account')),
+    path('blog/', include(('apps.blog.urls', 'apps.blog'), namespace='blog')),
     path('captcha/', include('captcha.urls')),
     path('contact_us/', include(('apps.contact_us.urls', 'apps.contact_us'), namespace='contact_us')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

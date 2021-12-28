@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'django.forms',
     'captcha',
     'ckeditor',
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     'apps.blog',
     'apps.account',
     'apps.contact_us',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -65,15 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -145,4 +139,4 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = "media/image"
+CKEDITOR_UPLOAD_PATH = "/image"
