@@ -1,12 +1,8 @@
-from django.contrib import messages
-from django.db.models import Q
-from django.http import Http404
-from django.shortcuts import get_object_or_404, render
-from django.core.paginator import Paginator, InvalidPage
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 from .models import Post, Category
-from ..account.models import UserProfile
 
 
 class Blog(ListView):
@@ -17,7 +13,7 @@ class Blog(ListView):
     # all_posts = Post.objects.order_by('pub_date').filter(status='Published')
 
     def get_queryset(self):
-        return Post.objects.order_by('pub_date').filter(status='Published')
+        return self.model.objects.order_by('pub_date').filter(status='Published')
 
 
 class Tag(ListView):
@@ -28,20 +24,20 @@ class Tag(ListView):
     def get_queryset(self):
         tag = self.request.GET.get("tag", "")
         tag = tag.lower()
-        return Post.objects.order_by('pub_date').filter(status='Published').filter(tags__contains=[tag])
+        return self.model.objects.order_by('pub_date').filter(status='Published').filter(tags__contains=[tag])
 
 
-class PostView(DetailView):
+class PostDetail(DetailView):
     template_name = 'blog/slug.html'
     model = Post
 
 
-class SlugView(DetailView):
+class Slug(DetailView):
     template_name = 'blog/slug.html'
     model = Post
 
 
-class CategoryView(ListView):
+class CategoryList(ListView):
     template_name = 'blog/category.html'
     model = Post
     paginate_by = 6
@@ -49,8 +45,4 @@ class CategoryView(ListView):
     def get_queryset(self):
         category = self.kwargs['category']
         category = category.lower()
-        return Post.objects.order_by('pub_date').filter(category__name__iexact=category)
-
-
-def show_genres(request):
-    return render(request, "blog/genres.html", {'genres': Category.objects.all()})
+        return self.model.objects.order_by('pub_date').filter(category__name__iexact=category)

@@ -10,14 +10,15 @@
                     <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-30">
                         <article class="post-container">
                             <div class="post-thumb">
-                                <a href="/blog/post/{{ post.id }}"
+                                <a href="{{ post.get_absolute_url }}"
                                    class="d-block position-relative overflow-hidden">
                                     <img src="{{ post.picture.url }}" class="img-fluid" alt="Blog Post">
                                 </a>
                             </div>
                             <div class="post-content">
                                 <div class="entry-header">
-                                    <h3><a href="/blog/post/{{ post.slug }}">{{ post.title| truncatechars:100 }}</a>
+                                    <h3>
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title| truncatechars:100 }}</a>
                                     </h3>
                                 </div>
                             </div>

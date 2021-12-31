@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'apps.core',
     'apps.blog',
+    'apps.learning',
     'apps.account',
     'apps.contact_us',
     'mptt',
@@ -129,6 +130,7 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = "account.UserProfile"
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:profile')
+LOGIN_URL = reverse_lazy('account:login')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
