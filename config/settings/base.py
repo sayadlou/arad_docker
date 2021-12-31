@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'apps.core',
     'apps.blog',
+    'apps.store',
     'apps.learning',
     'apps.account',
     'apps.contact_us',
