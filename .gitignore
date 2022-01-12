@@ -3,14 +3,13 @@
 *.pot
 *.pyc
 __pycache__
-#db.sqlite3
 #media
 
 # Backup files # 
 *.bak 
 
 # If you are using PyCharm # 
-../.idea
+.idea
 *.iws /out/ 
 
 # Python # 
@@ -55,6 +54,5 @@ venv.bak/
 
 
 requirements/temp.txt
-sent_email
-/sent_email/
-/.coverage
+django/sent_email
+django/.coverage
