@@ -8,7 +8,7 @@ class Message(models.Model):
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
-    id = models.UUIDField(primary_key=True, default=uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     subject = models.CharField(max_length=50, db_column="Subject")
     phone = models.CharField(max_length=15, null=True, blank=True, db_column="Phone Number")
     email = models.EmailField(max_length=50, db_column="Email Address")

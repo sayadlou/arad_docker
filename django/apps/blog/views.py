@@ -44,5 +44,4 @@ class CategoryList(ListView):
 
     def get_queryset(self):
         category = self.kwargs['category']
-        category = category.lower()
         return self.model.objects.order_by('pub_date').filter(category__name__iexact=category)

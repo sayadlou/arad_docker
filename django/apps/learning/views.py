@@ -1,37 +1,41 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView
 
-# Create your views here.
 from .models import Post as LearningPost
-from ..blog.views import Blog, PostDetail as BlogPost, Slug as BlogSlug, Tag as BlogTag, CategoryList as BlogCategory, \
-    Tag, CategoryList
+from .permitions import BoughtSlugUserMixin
 
 
-class IndexView(Blog):
+class IndexView(ListView):
+    model = LearningPost
+    template_name = 'learning/index.html'
+    paginate_by = 6
+
+    # all_posts = Post.objects.order_by('pub_date').filter(status='Published')
+
+    def get_queryset(self):
+        return self.model.objects.order_by('pub_date').filter(status='Published')
+
+
+class SlugView(BoughtSlugUserMixin, DetailView):
+    template_name = 'learning/slug.html'
     model = LearningPost
 
 
-class SlugView(UserPassesTestMixin, BlogSlug):
+class TagView(ListView):
     model = LearningPost
-    raise_exception = False
+    template_name = 'learning/tag.html'
+    paginate_by = 6
 
-    def handle_no_permission(self):
-        return render(self.request, template_name="learning/pervent_message.html")
-
-    def test_func(self):
-        slug = self.kwargs.get(self.slug_url_kwarg)
-        post = get_object_or_404(LearningPost, slug__iexact=slug)
-        user_id = self.request.user.pk
-        is_user_owner = post.purchaser.filter(pk=user_id).count()
-        if is_user_owner == 1 and self.request.user.is_authenticated:
-            return True
-        return False
+    def get_queryset(self):
+        tag = self.request.GET.get("tag", "")
+        tag = tag.lower()
+        return self.model.objects.order_by('pub_date').filter(status='Published').filter(tags__contains=[tag])
 
 
-class TagView(Tag):
+class CategoryView(ListView):
     model = LearningPost
+    template_name = 'learning/category.html'
+    paginate_by = 6
 
-
-class CategoryView(CategoryList):
-    model = LearningPost
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return self.model.objects.order_by('pub_date').filter(category__name__iexact=category)

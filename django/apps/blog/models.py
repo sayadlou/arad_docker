@@ -8,8 +8,9 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from uuid import uuid4
 
+
 class AbstractCategory(MPTTModel):
-    id = models.UUIDField(primary_key=True, default=uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=50, unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
@@ -33,9 +34,9 @@ class AbstractPost(models.Model):
         ('Draft', 'Draft'),
         ('Trash', 'Trash'),
     )
-    id = models.UUIDField(primary_key=True, default=uuid4)
-    slug = models.SlugField(max_length=50, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=50, unique=True)
     content = RichTextUploadingField()
     status = models.CharField(max_length=50, choices=STATUS)
     view = models.BigIntegerField(null=True, blank=True, default=0)

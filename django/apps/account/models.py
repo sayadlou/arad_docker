@@ -14,7 +14,7 @@ class UserProfileManager(UserManager):
 class UserProfile(AbstractUser):
     objects = UserProfileManager()
 
-    id = models.UUIDField(primary_key=True, default=uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     profile_picture = models.ImageField(_('profile picture'), upload_to='profile_pic', default='default_profile.png')
     address = models.TextField(_('address'), max_length=250, default=_('your address'))
     mobile = models.CharField(_('mobile'), max_length=20, default=_('00989123456789'))

@@ -1,7 +1,7 @@
 FROM python:3.9
 
 ENV PYTHONUNBUFFERED=1
-WORKDIR /app
+WORKDIR /django
 
 # Required to install mysqlclient with Pip
 RUN apt-get update \
@@ -9,7 +9,7 @@ RUN apt-get update \
 
 
 # Copy the application files into the image
-COPY .. /app/
+COPY .. /django/
 
 RUN pip install -r requirements.txt
 

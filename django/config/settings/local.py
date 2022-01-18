@@ -1,19 +1,30 @@
 from .base import *
-
+import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+import socket
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'arad',
+#         'USER': 'saeid',
+#         'PASSWORD': env('db_password'),
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'arad',
-        'USER': 'saeid',
-        'PASSWORD': env('db_password'),
-        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
@@ -31,6 +42,9 @@ INSTALLED_APPS += [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+
+INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
 
 ROOT_URLCONF = 'config.urls.local'
 
