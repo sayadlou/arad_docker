@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  django:
-    build: ./django
+  django_backend:
+    build: ./django_backend
     command: ./wait-for-it.sh postgres:5432 -- ./docker-entrypoint.sh
     ports:
       - 8000:8000
@@ -10,7 +10,7 @@ services:
       - postgres
     restart: on-failure
     volumes:
-      - ./django:/django
+      - ./django_backend:/django_backend
     env_file:
       - ./.env
       - ./.env.db
@@ -30,21 +30,21 @@ services:
     volumes:
       - redisdata:/data
   celery:
-    build: ./django
+    build: ./django_backend
     command: celery -A config worker --loglevel=info
     depends_on:
       - redis
     volumes:
-      - ./django:/django
+      - ./django_backend:/django_backend
     env_file:
       - ./.env
   celery-beat:
-    build: ./django
+    build: ./django_backend
     command: celery -A config beat --loglevel=info
     depends_on:
       - redis
     volumes:
-      - ./django:/django
+      - ./django_backend:/django_backend
     env_file:
       - ./.env
 volumes:
