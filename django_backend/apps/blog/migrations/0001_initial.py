@@ -4,6 +4,7 @@ import ckeditor_uploader.fields
 import datetime
 import django.contrib.postgres.fields
 import django.contrib.postgres.fields.citext
+from django.contrib.postgres.operations import CITextExtension
 from django.db import migrations, models
 import django.db.models.deletion
 import mptt.fields
@@ -18,6 +19,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        CITextExtension(),
         migrations.CreateModel(
             name='Category',
             fields=[
@@ -34,6 +36,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+
             name='Post',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),

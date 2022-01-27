@@ -2,6 +2,13 @@
 {% load i18n %}
 {% load static %}
 {% block content %}
+    {% if form.errors %}
+        {% for error in form.non_field_errors %}
+            <script>
+                alertify.error("{{ error }}");
+            </script>
+        {% endfor %}
+    {% endif %}
     <div id="page-top" class="wide">
         <!-- Single Service Item ////////// Just this Section is changed! -->
         <div id="user">
@@ -9,7 +16,13 @@
                 <div class="col-lg-6">
                     <div class="user-form">
                         <h1>{% translate "Login" %}</h1>
+
                         <hr>
+                        {% if next %}
+                            {% translate "Your account doesn't have access to this page. To proceed, please login with an account that has access" %}
+                        {% else %}
+                            {% translate "Please login " %}
+                        {% endif %}
                         <form method="post" action="{% url 'account:login' %}">
                             <div class="row">
                                 {% csrf_token %}
@@ -56,10 +69,5 @@
     {#        <input type="submit" value="login">#}
     {#        <input type="hidden" name="next" value="{{ next }}">#}
     {#    </form>#}
-    <script>
-        alertify.success('Success message');
-        alertify.error('Error message');
-        alertify.warning('Warning message');
-        alertify.message('Normal message');
-    </script>
+
 {% endblock content %}

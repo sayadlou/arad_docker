@@ -4,6 +4,7 @@ from time import mktime
 
 import requests
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from .models import Post as LearningPost, VideoFile
@@ -20,6 +21,11 @@ class IndexView(ListView):
 
     def get_queryset(self):
         return self.model.objects.order_by('pub_date').filter(status='Published')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['model'] = ContentType.objects.get_for_model(LearningPost).pk
+        return data
 
 
 class View(BoughtUserMixin, DetailView):

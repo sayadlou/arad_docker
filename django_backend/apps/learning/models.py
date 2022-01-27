@@ -2,6 +2,7 @@ import datetime
 from uuid import uuid4
 
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.core.files.storage import FileSystemStorage
 from django.contrib.postgres.fields import ArrayField, CICharField
 from django.db import models
 from django.urls import reverse
@@ -11,6 +12,7 @@ from mptt.models import MPTTModel
 
 from ..account.models import UserProfile
 from ..blog.models import Category as BlogCategory
+from config.settings.base import learning_attachments_path
 
 
 class Category(MPTTModel):
@@ -31,10 +33,7 @@ class Post(models.Model):
         ('Draft', 'Draft'),
         ('Trash', 'Trash'),
     )
-    CONTENT_TYPE = (
-        (_('Free'), _('Free')),
-        (_('Buyable'), _('Buyable')),
-    )
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=50, unique=True)
@@ -45,14 +44,17 @@ class Post(models.Model):
     pub_date = models.DateField(_("Date"), default=datetime.date.today)
     picture = models.ImageField(null=True, blank=True, upload_to='learning/picture')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    type = models.CharField(max_length=10, choices=CONTENT_TYPE)
+    price = models.DecimalField(max_digits=12, decimal_places=0)
+    max_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
+    min_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
     purchaser = models.ManyToManyField(UserProfile)
     video = models.ForeignKey('VideoFile', on_delete=models.CASCADE, null=True, blank=True)
-    attachment = models.FileField(null=True, blank=True, upload_to='learning/attachment')
+    attachment = models.FileField(null=True, blank=True, storage=learning_attachments_path)
 
     def get_absolute_url(self):
         return reverse('learning:slug', kwargs={'slug': self.slug})
-
+    def __str__(self):
+        return f'{self.title}'
 
 class VideoFile(models.Model):
     name = models.CharField(max_length=255)

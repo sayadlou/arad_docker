@@ -58,3 +58,5 @@ django/sent_email
 django/.coverage
 /.env.db
 /.env.db.example
+/django_backend/learning_attachments/
+/practice/

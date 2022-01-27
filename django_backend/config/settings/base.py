@@ -1,6 +1,7 @@
 import environ
 from pathlib import Path
 
+from django.core.files.storage import FileSystemStorage
 from django.urls import reverse, reverse_lazy
 
 env = environ.Env()
@@ -27,16 +28,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.humanize',
     'django.forms',
     'captcha',
     'ckeditor',
     'ckeditor_uploader',
     'apps.core',
     'apps.blog',
-    'apps.store',
     'apps.learning',
     'apps.account',
     'apps.contact_us',
+    'apps.store',
     'mptt',
 ]
 
@@ -117,16 +119,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-IMAGE_URL = '/images/'
-MEDIA_ROOT = BASE_DIR / "media"
 STATIC_ROOT = BASE_DIR / "static"
-IMAGE_ROOT = BASE_DIR / "frontend/build/images"
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
+
+ATTACHMENT_URL = '/attachment/'
+ATTACHMENT_ROOT = BASE_DIR / "learning_attachments"
+
 STATICFILES_DIRS = [
     # BASE_DIR / "static",
     # BASE_DIR / 'templates/sabery/build/static',
 ]
+
+learning_attachments_path = FileSystemStorage(location=ATTACHMENT_ROOT, base_url=ATTACHMENT_URL)
+
 AUTH_USER_MODEL = "account.UserProfile"
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:profile')

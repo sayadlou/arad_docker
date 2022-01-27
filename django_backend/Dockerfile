@@ -4,8 +4,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /django_backend
 
 # Required to install mysqlclient with Pip
-RUN apt-get update \
-  && apt-get install python3-dev default-libmysqlclient-dev gcc -y
+RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev gcc -y
 
 
 # Copy the application files into the image

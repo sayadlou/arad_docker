@@ -13,9 +13,7 @@
     <meta property="og:image:width" content="256"/>
     <meta property="og:image:height" content="256"/>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
@@ -47,28 +45,46 @@
         }
     </style>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    {#    <!-- CSS -->#}
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>#}
-    {#    <!-- Default theme -->#}
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>#}
-    {#    <!-- Semantic UI theme -->#}
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>#}
-    {#    <!-- Bootstrap theme -->#}
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>#}
+    <!-- CSS -->
+
+    <!-- Local Sctipts -->
+    <script src="{% static "core/js/scripts.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!--
         RTL version
     -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
-    <!-- Default theme -->
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>#}
-    <!-- Semantic UI theme -->
-    {#    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>#}
-    <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
+
 </head>
 
 <body>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                alertify.success('{{ message }}');
+            </script>
+        {% endif %}
+        {% if message.tags == 'error' %}
+            <script>
+                alertify.error('{{ message }}');
+            </script>
+        {% endif %}
+        {% if message.tags == 'warning' %}
+            <script>
+                alertify.warning('{{ message }}');
+            </script>
+        {% endif %}
+        {% if message.tags == 'info' %}
+            <script>
+                alertify.message('{{ message }}');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -101,13 +117,24 @@
                 </div>
             </div>
         </div>
+        <script>
+            function goToLink(url) {
+                var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+                var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                    return new bootstrap.Dropdown(dropdownToggleEl)
+                })
+            }
+        </script>
+
         <div class="col-lg-10 fullscreen fit">
+            <button onclick="goToLink()">salam</button>
             <!-- Sign In / Sign Up-->
             <div id="signin_signup" class="wide">
                 {% if user.is_authenticated %}
                     {% if user.cart %}
                         <div class="dropdown d-inline mx-3">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2"
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button" id="dropdownMenu2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                 سبد خرید
                             </button>
@@ -142,8 +169,7 @@
         </div>
     </div>
 </div>
-<!-- Local Sctipts -->
-<script src="{% static "core/js/scripts.js" %}"></script>
+
 </body>
 
 </html>

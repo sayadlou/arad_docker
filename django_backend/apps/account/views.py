@@ -1,9 +1,8 @@
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, \
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django import forms
 from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile
@@ -18,6 +17,9 @@ class Login(LoginView):
 
 class Logout(LogoutView):
     template_name = 'account/logged_out.html'
+
+
+
 
 
 class PasswordChange(PasswordChangeView):

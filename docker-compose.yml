@@ -29,24 +29,24 @@ services:
     restart: always
     volumes:
       - redisdata:/data
-  celery:
-    build: ./django_backend
-    command: celery -A config worker --loglevel=info
-    depends_on:
-      - redis
-    volumes:
-      - ./django_backend:/django_backend
-    env_file:
-      - ./.env
-  celery-beat:
-    build: ./django_backend
-    command: celery -A config beat --loglevel=info
-    depends_on:
-      - redis
-    volumes:
-      - ./django_backend:/django_backend
-    env_file:
-      - ./.env
+#  celery:
+#    build: ./django_backend
+#    command: celery -A config worker --loglevel=info
+#    depends_on:
+#      - redis
+#    volumes:
+#      - ./django_backend:/django_backend
+#    env_file:
+#      - ./.env
+#  celery-beat:
+#    build: ./django_backend
+#    command: celery -A config beat --loglevel=info
+#    depends_on:
+#      - redis
+#    volumes:
+#      - ./django_backend:/django_backend
+#    env_file:
+#      - ./.env
 volumes:
   redisdata:
   postgres_data:
