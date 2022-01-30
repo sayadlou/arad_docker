@@ -20,13 +20,12 @@
                                     <h3>
                                         <a href="{{ post.get_absolute_url }}">{{ post.title| truncatechars:100 }}</a>
                                     </h3>
+
+
                                     <form autocomplete="off" method="post" action="{% url 'store:cart' %}">
                                         {% csrf_token %}
-                                        <input type="text" name="product_id" value="{{ post.pk }}" hidden>
-                                        <input type="text" name="unit_price" value="{{ post.price }}" hidden>
-                                        <input type="text" name="content_type" value="{{ model }}" hidden>
-                                        <input type="text" name="object_pk" value="{{ post.pk }}" hidden>
-                                        <input type="text" name="object_title" value="{{ post.title }}" hidden>
+                                        <input type="text" name="product" value="{{ post.pk }}" hidden>
+                                        <input type="text" name="request_type" value="inc" hidden>
                                         <input type="number" name="quantity" value="1" hidden>
                                         <input type="submit" class="btn btn-primary" value="Add to Cart">
 

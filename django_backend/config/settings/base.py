@@ -4,6 +4,7 @@ from pathlib import Path
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse, reverse_lazy
 
+
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -133,6 +134,7 @@ STATICFILES_DIRS = [
 ]
 
 learning_attachments_path = FileSystemStorage(location=ATTACHMENT_ROOT, base_url=ATTACHMENT_URL)
+
 
 AUTH_USER_MODEL = "account.UserProfile"
 

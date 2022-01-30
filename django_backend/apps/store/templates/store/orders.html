@@ -6,7 +6,11 @@
 {% block content %}
     <div id="page-top" class="wide">
         <div id="user">
-                    <h1>{% translate "order" %}  {% translate "status" %} {{ order.get_status_display }}</h1>
+            {% if has_order %}
+                {% for order in orders %}
+                    <a href="{% url "store:order_item" order.id %}">
+                    <h1>{% translate "order" %} {{ forloop.counter }} {% translate "status" %} {{ order.get_status_display }}</h1>
+                    </a>
                     <table class="table" id="cart-table">
                         <thead>
                         <tr>
@@ -28,7 +32,11 @@
                         </tbody>
 
                     </table>
+                {% endfor %}
                 <br>
+            {% else %}
+                <h1>{% trans "you have no order" %}</h1>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

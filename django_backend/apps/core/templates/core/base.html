@@ -117,17 +117,7 @@
                 </div>
             </div>
         </div>
-        <script>
-            function goToLink(url) {
-                var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-                var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-                    return new bootstrap.Dropdown(dropdownToggleEl)
-                })
-            }
-        </script>
-
         <div class="col-lg-10 fullscreen fit">
-            <button onclick="goToLink()">salam</button>
             <!-- Sign In / Sign Up-->
             <div id="signin_signup" class="wide">
                 {% if user.is_authenticated %}
@@ -156,14 +146,11 @@
                     {% endif %}
                     <a href="{% url "account:profile" %}" class="btn btn-outline-primary btn-equal">ورود به پورتال</a>
                 {% else %}
-
                     <a href="{% url "account:profile" %}" class="btn btn-outline-primary btn-equal">ورود به پورتال</a>
                     {#                <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>#}
                     <a href="{% url "account:signup" %}" class="btn btn-secondary btn-equal">عضویت در سایت</a>
-
                 {% endif %}
             </div>
-
             {% block content %}
             {% endblock content %}
         </div>

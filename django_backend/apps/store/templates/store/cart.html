@@ -27,20 +27,20 @@
                             <td>{{ item.quantity }}</td>
                             <td>
                                 <form autocomplete=off method="post"
-                                      action="{% url 'store:cartItem' item.id %}">
+                                      action="{% url 'store:cart_item' item.id %}">
                                     {% csrf_token %}
-                                    <input type="text" name="content_type" value="{{ item.content_type.pk }}" hidden>
-                                    <input type="text" name="object_pk" value="{{ item.product.pk }}" hidden>
-                                    <input type="number" name="quantity" value="{{ item.quantity|add:"-1" }}" hidden>
+                                    <input type="text" name="product" value="{{ item.product.pk }}" hidden>
+                                    <input type="text" name="request_type" value="dec" hidden>
+                                    <input type="number" name="quantity" value="1" hidden>
                                     <input type="submit" value="Dec">
                                 </form>
 
                                 <form autocomplete=off method="post"
-                                      action="{% url 'store:cartItem' item.id %}">
+                                      action="{% url 'store:cart_item' item.id %}">
                                     {% csrf_token %}
-                                    <input type="text" name="content_type" value="{{ item.content_type.pk }}" hidden>
-                                    <input type="text" name="object_pk" value="{{ item.product.pk }}" hidden>
-                                    <input type="number" name="quantity" value="{{ item.quantity|add:"1" }}" hidden>
+                                    <input type="text" name="product" value="{{ item.product.pk }}" hidden>
+                                    <input type="text" name="request_type" value="inc" hidden>
+                                    <input type="number" name="quantity" value="1" hidden>
                                     <input type="submit" value="Inc">
                                 </form>
 
@@ -52,7 +52,7 @@
                                     $("#delete{{ forloop.counter }}").click(function () {
                                         $.ajax({
                                             type: "DELETE",
-                                            url: '{% url 'store:cartItem'  item.id %}',
+                                            url: '{% url 'store:cart_item'  item.id %}',
                                             beforeSend: function (xhr) {
                                                 xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
                                             },
@@ -75,8 +75,13 @@
                 </table>
                 <br>
                 <h1>جمع کل {{ cart_sum |floatformat:"0" |intcomma  }}</h1>
+                <form autocomplete=off method="post"
+                      action="{% url 'store:order' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="{% trans "Make Payment" %}">
+                </form>
             {% else %}
-                <h1>سبد شما خالی است</h1>
+                <h1>{% trans "your cart is empty" %}</h1>
             {% endif %}
             {% for post in page_obj %}
 

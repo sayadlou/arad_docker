@@ -11,6 +11,8 @@ from .models import Post as LearningPost, VideoFile
 from .permitions import BoughtUserMixin
 from django_downloadview import ObjectDownloadView
 
+from ..store.forms import CartItemForm
+
 
 class IndexView(ListView):
     model = LearningPost
@@ -25,6 +27,8 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['model'] = ContentType.objects.get_for_model(LearningPost).pk
+        data['formmy'] = CartItemForm()
+
         return data
 
 
