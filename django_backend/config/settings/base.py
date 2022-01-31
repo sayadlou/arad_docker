@@ -1,23 +1,19 @@
-import environ
+import os
 from pathlib import Path
 
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse, reverse_lazy
 
-
-env = environ.Env()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Load .env file
-environ.Env.read_env(BASE_DIR.parent / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Application definition
 
@@ -34,13 +30,14 @@ INSTALLED_APPS = [
     'captcha',
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
+    'azbankgateways',
     'apps.core',
     'apps.blog',
     'apps.learning',
     'apps.account',
     'apps.contact_us',
     'apps.store',
-    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +132,6 @@ STATICFILES_DIRS = [
 
 learning_attachments_path = FileSystemStorage(location=ATTACHMENT_ROOT, base_url=ATTACHMENT_URL)
 
-
 AUTH_USER_MODEL = "account.UserProfile"
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:profile')
@@ -150,3 +146,28 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "/image"
+
+AZ_IRANIAN_BANK_GATEWAYS = {
+    'GATEWAYS': {
+
+        'ZARINPAL': {
+            'MERCHANT_CODE': os.environ.get('ZARINPAL_MERCHANT_CODE'),
+        },
+        'IDPAY': {
+            'MERCHANT_CODE': os.environ.get('IDPAY_MERCHANT_CODE'),
+            'METHOD': 'POST',  # GET or POST
+            'X_SANDBOX': 1,  # 0 disable, 1 active
+        },
+    },
+    'IS_SAMPLE_FORM_ENABLE': True,  # اختیاری و پیش فرض غیر فعال است
+    'DEFAULT': 'IDPAY',
+    'CURRENCY': 'IRR',  # اختیاری
+    'TRACKING_CODE_QUERY_PARAM': 'tc',  # اختیاری
+    'TRACKING_CODE_LENGTH': 16,  # اختیاری
+    'SETTING_VALUE_READER_CLASS': 'azbankgateways.readers.DefaultReader',  # اختیاری
+    'BANK_PRIORITIES': [
+        'BMI',
+        'SEP',
+        # and so on ...
+    ],  # اختیاری
+}

@@ -94,18 +94,18 @@ class OrderListAddView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         cart = request.user.cart
         order_items = list()
-        order = Order.objects.create(owner=request.user, status='W')
+        new_order = Order.objects.create(owner=request.user, status='W')
         for item in cart.cartitem_set.all():
             order_items.append(
                 OrderItem(
-                    order=order,
+                    order=new_order,
                     quantity=item.quantity,
                     product=item.product,
                 )
             )
         OrderItem.objects.bulk_create(order_items, batch_size=20)
         cart.cartitem_set.all().delete()
-        return redirect(reverse('store:order'), permanent=True)
+        return redirect(reverse('store:order_item', kwargs={'pk': new_order.id}), permanent=True)
 
 
 class OrderDetailView(LoginRequiredMixin, View):

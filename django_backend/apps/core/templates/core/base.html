@@ -134,7 +134,7 @@
                                 {% if user.cart.cartitem_set.count >= 1 %}
                                     {% for item in user.cart.cartitem_set.all %}
                                         <li>
-                                            <p>{{ item.object_pk }}</p>
+                                            <p>{{ item.product.title }}</p>
                                         </li>
                                     {% endfor %}
                                     <a class="btn btn-primary" href='#'>پرداخت</a>

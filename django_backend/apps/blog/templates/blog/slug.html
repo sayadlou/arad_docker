@@ -10,7 +10,7 @@
                     <h1>{{ object.title }}</h1>
                     <div>
                         {% translate "tag:" %}
-                        {% for tag in object.tags %}
+                        {% for tag in object.tags_list %}
                             <a href="{% url "blog:tag" %}?tag={{ tag }}">{{ tag }}</a>
                         {% endfor %}
                     </div>

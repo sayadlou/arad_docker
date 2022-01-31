@@ -39,7 +39,7 @@ class Post(Product):
     content = RichTextUploadingField()
     status = models.CharField(max_length=50, choices=STATUS)
     view = models.BigIntegerField(null=True, blank=True, default=0)
-    tags = ArrayField(CICharField(max_length=20), blank=True)
+    tags = models.CharField(max_length=200)
     pub_date = models.DateField(_("Date"), default=datetime.date.today)
     picture = models.ImageField(null=True, blank=True, upload_to='learning/picture')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
@@ -48,8 +48,19 @@ class Post(Product):
 
     def get_absolute_url(self):
         return reverse('learning:slug', kwargs={'slug': self.slug})
+
     def __str__(self):
         return f'{self.title}'
+
+    @property
+    def tags_list(self):
+        tag_to_list = list()
+        if "," in self.tags:
+            tag_to_list = [x.strip() for x in self.tags.split(',')]
+        else:
+            tag_to_list.append(self.tags)
+        return tag_to_list
+
 
 class VideoFile(models.Model):
     name = models.CharField(max_length=255)

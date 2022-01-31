@@ -32,7 +32,7 @@ class IndexView(ListView):
         return data
 
 
-class View(BoughtUserMixin, DetailView):
+class SlugView(BoughtUserMixin, DetailView):
     template_name = 'learning/slug.html'
     model = LearningPost
 
@@ -45,10 +45,13 @@ class View(BoughtUserMixin, DetailView):
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'config.settings.production':
             payload['secure_ip'] = self.get_client_ip()
         r = requests.get(url, headers=headers)
+        data = super().get_context_data(**kwargs)
         if r.status_code == 200:
             respone = r.json()
-            data = super().get_context_data(**kwargs)
             data['video_url'] = respone["data"]["player_url"]
+            data['status'] = True
+        else:
+            data['status'] = False
         return data
 
     def get_client_ip(self):
