@@ -61,3 +61,5 @@ django/.coverage
 /.env.db.example
 /django_backend/learning_attachments/
 /practice/
+/.env.prod.db
+/.env.prod

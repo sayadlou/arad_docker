@@ -5,10 +5,10 @@ services:
     build:
       context: ./django_backend
       dockerfile: Dockerfile.prod
-    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/django_backend/web/staticfiles
-      - media_volume:/home/django_backend/web/mediafiles
+      - static_volume:/home/django_backend/web/static
+      - media_volume:/home/django_backend/web/media
     expose:
       - 8000
     env_file:
@@ -24,8 +24,8 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_volume:/home/django_backend/web/staticfiles
-      - media_volume:/home/django_backend/web/mediafiles
+      - static_volume:/home/django_backend/web/static
+      - media_volume:/home/django_backend/web/media
     ports:
       - 1337:80
     depends_on:
