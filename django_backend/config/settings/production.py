@@ -20,14 +20,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['arad-imeg.herokuapp.com', '127.0.0.1']
 
-MIDDLEWARE += [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-]
-
-INSTALLED_APPS += [
-    "debug_toolbar",
-]
 
 ROOT_URLCONF = 'config.urls.production'
 
 CAPTCHA_TEST_MODE = False
+
