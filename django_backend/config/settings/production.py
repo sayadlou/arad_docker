@@ -18,7 +18,6 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['arad-imeg.herokuapp.com', '127.0.0.1']
 
 
 ROOT_URLCONF = 'config.urls.production'
