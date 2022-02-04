@@ -20,7 +20,7 @@ RUN pip install -r requirements.txt
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g' /usr/src/django_backend/entrypoint.sh
-RUN chmod +x /usr/src/django_backend/entrypoint.sh
+RUN chmod 777 /usr/src/django_backend/entrypoint.sh
 
 # copy project
 COPY . .

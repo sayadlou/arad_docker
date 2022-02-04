@@ -2,7 +2,6 @@ from .base import *
 import os
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 import socket
 
 # Database
@@ -19,7 +18,6 @@ DATABASES = {
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
-
 
 MIDDLEWARE += [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
