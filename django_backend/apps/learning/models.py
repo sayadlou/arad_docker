@@ -14,7 +14,7 @@ from ..account.models import UserProfile
 from ..blog.models import Category as BlogCategory
 from config.settings.base import learning_attachments_path
 
-from ..store.models import Product
+from ..store.models import Product as ProductBaseModel
 
 
 class Category(MPTTModel):
@@ -29,7 +29,7 @@ class Category(MPTTModel):
         order_insertion_by = ['name']
 
 
-class Post(Product):
+class Post(ProductBaseModel):
     STATUS = (
         ('Published', 'Published'),
         ('Draft', 'Draft'),
