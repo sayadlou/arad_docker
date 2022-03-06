@@ -8,8 +8,8 @@
         <div id="user">
             {% if has_order %}
                 {% for order in orders %}
-                    <a href="{% url "store:order_item" order.id %}">
-                    <h1>{% translate "order" %} {{ forloop.counter }} {% translate "status" %} {{ order.get_status_display }}</h1>
+                    <a href="{% url 'store:order_item' order.id %}">
+                        <h1>{% translate "order" %} {{ forloop.counter }} {% translate "status" %} {{ order.get_status_display }}</h1>
                     </a>
                     <table class="table" id="cart-table">
                         <thead>
@@ -30,8 +30,16 @@
                             </tr>
                         {% endfor %}
                         </tbody>
-
                     </table>
+                    <h1>
+                        مبلغ سفارش
+                        {{ order.total_price }}
+                    </h1>
+                    <form autocomplete=off method="post" action="{% url 'store:orders' %}">
+                        {% csrf_token %}
+                        <input type="text" hidden name="order_id" value="{{ order.id }}">
+                        <input type="submit" value="{% trans 'Make Payment' %}">
+                    </form>
                 {% endfor %}
                 <br>
             {% else %}

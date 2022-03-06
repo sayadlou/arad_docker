@@ -1,11 +1,11 @@
-import json
 from decimal import Decimal
 from pprint import pprint
 
+from azbankgateways import bankfactories, models as bank_models, default_settings as settings
+from azbankgateways.exceptions import AZBankGatewaysException
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.db.models import Sum
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -13,7 +13,7 @@ from django.views import View
 from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
-from ..store.models import CartItem, Cart, Order, OrderItem
+from ..store.models import CartItem, Order, OrderItem
 
 
 def print_attributes(obj):
@@ -32,7 +32,6 @@ class CartListAddView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         context = {'cart': request.user.cart}
-
         cart_has_item = CartItem.objects.filter(cart=request.user.cart).exists()
         context['cart_has_item'] = cart_has_item
         if cart_has_item:
@@ -41,7 +40,6 @@ class CartListAddView(LoginRequiredMixin, View):
             for item in context['cart_item']:
                 cart_sum += item.product.price * Decimal(item.quantity)
             context['cart_sum'] = cart_sum
-
         return render(request=self.request, template_name="store/cart.html", context=context)
 
     def post(self, request, *args, **kwargs):
@@ -55,7 +53,6 @@ class CartListAddView(LoginRequiredMixin, View):
             for key in form.errors:
                 for error in form.errors[key]:
                     messages.error(request, error)
-        # return redirect(reverse('store:cart'))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -113,3 +110,31 @@ class OrderDetailView(LoginRequiredMixin, View):
         order = get_object_or_404(Order, owner=request.user, pk=kwargs["pk"])
         context = {'order': order}
         return render(request=request, template_name="store/order.html", context=context)
+
+
+def go_to_gateway_view(request):
+    # خواندن مبلغ از هر جایی که مد نظر است
+    amount = 1000
+    # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
+    user_mobile_number = '+989112221234'  # اختیاری
+
+    factory = bankfactories.BankFactory()
+    try:
+        bank = factory.auto_create()  # or factory.create(bank_models.BankType.BMI) or set identifier
+        bank.set_request(request)
+        bank.set_amount(amount)
+        # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
+        bank.set_client_callback_url(reverse('callback-gateway'))
+        bank.set_mobile_number(user_mobile_number)  # اختیاری
+
+        # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
+        # پرداخت برقرار کنید.
+        bank_record = bank.ready()
+
+        # هدایت کاربر به درگاه بانک
+        return bank.redirect_gateway()
+    except AZBankGatewaysException as e:
+        # logging.critical(e)
+        print(e)
+        # TODO: redirect to failed page.
+        raise e

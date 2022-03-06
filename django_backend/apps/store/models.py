@@ -2,6 +2,7 @@ from decimal import Decimal
 from uuid import uuid4
 
 from django.db import models
+from django.db.models import Sum, Func, F, Count
 from django.utils.translation import ugettext_lazy as _
 
 from ..account.models import UserProfile
@@ -67,10 +68,6 @@ class CartItem(models.Model):
     # def __unicode__(self):
     #     return u'%d units of %s' % (self.quantity, self.product.__class__.__name__)
 
-    @property
-    def total_price(self):
-        return self.quantity * self.unit_price
-
     # @property
     # def product(self):
     #     return self.content_type.get_object_for_this_type(pk=self.object_pk)
@@ -106,6 +103,13 @@ class Order(models.Model):
         verbose_name_plural = _('Order')
         ordering = ('id',)
 
+    @property
+    def total_price(self):
+        sum = 0
+        for item in self.orderitem_set.all():
+            sum += item.product.price * item.quantity
+        return sum
+
     def __str__(self):
         return f"order of {self.owner.username}"
 
@@ -128,7 +132,7 @@ class OrderItem(models.Model):
 
     @property
     def total_price(self):
-        return self.quantity * self.price
+        return self.quantity * self.product.price
 
     # @property
     # def product(self):

@@ -1,3 +1,4 @@
+from azbankgateways.urls import az_bank_gateways_urls
 from django.urls import path, include
 
 
@@ -10,6 +11,8 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('contact_us/', include(('apps.contact_us.urls', 'apps.contact_us'), namespace='contact_us')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('bankgateways/', az_bank_gateways_urls()),
+
 ]
 
 

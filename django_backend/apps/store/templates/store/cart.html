@@ -76,9 +76,9 @@
                 <br>
                 <h1>جمع کل {{ cart_sum |floatformat:"0" |intcomma  }}</h1>
                 <form autocomplete=off method="post"
-                      action="{% url 'store:order' %}">
+                      action="{% url 'store:orders' %}">
                     {% csrf_token %}
-                    <input type="submit" value="{% trans "Make Payment" %}">
+                    <input type="submit" value="{% trans 'Submit an Order' %}">
                 </form>
             {% else %}
                 <h1>{% trans "your cart is empty" %}</h1>

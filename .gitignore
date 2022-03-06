@@ -63,3 +63,4 @@ django/.coverage
 /practice/
 /.env.prod.db
 /.env.prod
+/django_backend/db.sqlite3

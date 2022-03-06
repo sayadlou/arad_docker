@@ -7,6 +7,8 @@
     <div id="page-top" class="wide">
         <div id="user">
             <h1>{% translate "order" %} {% translate "status" %} {{ order.get_status_display }}</h1>
+
+
             <table class="table" id="cart-table">
                 <thead>
                 <tr>
@@ -27,11 +29,14 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <h1>
+                {{ order.total_price }}
+            </h1>
             <br>
-            <form autocomplete=off method="post" action="{% url 'store:peyment' %}">
+            <form autocomplete=off method="post" action="{% url 'store:orders' %}">
                 {% csrf_token %}
-                <input type="text" name="order_id" value="{{ order.id }}">
-                <input type="submit" value="{% trans "Make Payment" %}">
+                <input type="text" hidden name="order_id" value="{{ order.id }}">
+                <input type="submit" value="{% trans 'Make Payment' %}">
             </form>
         </div>
     </div>
