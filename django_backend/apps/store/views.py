@@ -125,9 +125,6 @@ def go_to_gateway_view(request):
         'Content-Type': 'application/json',
         'accept': 'application/json'
     }
-    response = requests.post('https://sandbox.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
+    response = requests.post('https://api.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
                              headers=headers)
-    print(response.content)
-    print(response)
-
     return HttpResponse(f"salam {response.content}")
