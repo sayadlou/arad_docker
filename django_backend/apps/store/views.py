@@ -8,7 +8,7 @@ from azbankgateways.exceptions import AZBankGatewaysException
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
@@ -127,4 +127,9 @@ def go_to_gateway_view(request):
     }
     response = requests.post('https://api.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
                              headers=headers)
-    return HttpResponse(f"salam {response.content}")
+    response_data = response.json()
+    if response.status_code == 200 and response_data["data"].get('authority',None):
+        if response_data["data"].get('code',None) == 100:
+            return redirect(f'https://www.zarinpal.com/pg/StartPay/{response_data["data"]["authority"]}')
+        #todo : add log
+    return HttpResponseBadRequest
