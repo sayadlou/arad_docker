@@ -28,9 +28,9 @@ class VideoFileAdmin(admin.ModelAdmin):
         return False
 
     def get_urls(self):
-        urls = super(VideoFileAdmin, self).get_urls()
+        urls = super().get_urls()
         my_urls = [
-            url(r"^refresh/$", refresh)
+            url("refresh/", refresh)
         ]
         return my_urls + urls
 
