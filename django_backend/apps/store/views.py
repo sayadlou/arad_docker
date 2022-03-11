@@ -1,10 +1,9 @@
-import json
 from decimal import Decimal
 from pprint import pprint
 import requests
+import json
+from uuid import uuid4
 
-from azbankgateways import bankfactories, models as bank_models, default_settings as settings
-from azbankgateways.exceptions import AZBankGatewaysException
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -15,7 +14,7 @@ from django.views import View
 from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
-from ..store.models import CartItem, Order, OrderItem
+from ..store.models import CartItem, Order, OrderItem, Payment
 
 
 def print_attributes(obj):
@@ -114,22 +113,38 @@ class OrderDetailView(LoginRequiredMixin, View):
         return render(request=request, template_name="store/order.html", context=context)
 
 
-def go_to_gateway_view(request):
-    data = {
-        "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
-        "amount": 10000,
-        "callback_url": "http://yoursite.com/ver",
-        "description": "افزایش اعتبار کاربر شماره ۱۱۳۴۶۲۹"
-    }
-    headers = {
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
-    }
-    response = requests.post('https://api.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
-                             headers=headers)
-    response_data = response.json()
-    if response.status_code == 200 and response_data["data"].get('authority',None):
-        if response_data["data"].get('code',None) == 100:
-            return redirect(f'https://www.zarinpal.com/pg/StartPay/{response_data["data"]["authority"]}')
-        #todo : add log
-    return HttpResponseBadRequest
+class PaymentListAddView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        payments = Payment.objects.filter(owner=request.user)
+        context = {'payments': payments, 'has_payments': payments.exists()}
+        return render(request=self.request, template_name="store/payments.html", context=context)
+
+    def post(self, request, *args, **kwargs):
+        id = uuid4()
+        data = {
+            "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
+            "amount": 10000,
+            "callback_url": f"{request.get_host()}/store/payment/{id}",
+            "description": "توضیحات"
+        }
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
+        }
+        response = requests.post('https://api.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
+                                 headers=headers)
+        response_data = response.json()
+        if response.status_code == 200 and response_data["data"].get('authority', None):
+            if response_data["data"].get('code', None) == 100:
+                return redirect(f'https://www.zarinpal.com/pg/StartPay/{response_data["data"]["authority"]}')
+            # todo : add log
+        return HttpResponseBadRequest
+
+
+class PaymentConfirmView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        payment = get_object_or_404(Payment, Payment=request.user, pk=kwargs["pk"])
+
+        context = {'order': payment}
+        return render(request=request, template_name="store/payment.html", context=context)

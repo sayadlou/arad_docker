@@ -1,4 +1,6 @@
+import string
 from decimal import Decimal
+from random import random
 from uuid import uuid4
 
 from django.db import models
@@ -50,8 +52,6 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
-    # objects = ItemManager()
-
     class Meta:
         verbose_name = _('Cart item')
         verbose_name_plural = _('Cart items')
@@ -65,18 +65,6 @@ class CartItem(models.Model):
         verbose_name_plural = _('Cart items')
         ordering = ('id',)
 
-    # def __unicode__(self):
-    #     return u'%d units of %s' % (self.quantity, self.product.__class__.__name__)
-
-    # @property
-    # def product(self):
-    #     return self.content_type.get_object_for_this_type(pk=self.object_pk)
-    #
-    # @product.setter
-    # def product(self, product):
-    #     self.content_type = Product.objects.get_for_model(type(product))
-    #     self.object_pk = product.pk
-
 
 class Order(models.Model):
     ORDER_STATUS_WAITING = 'W'
@@ -89,10 +77,12 @@ class Order(models.Model):
         (ORDER_STATUS_PAYED, 'Transferred'),
         (ORDER_STATUS_FAILED, 'Failed')
     ]
+
     owner = models.ForeignKey(UserProfile, on_delete=models.RESTRICT)
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=ORDER_STATUS_CHOICES, max_length=20, default=ORDER_STATUS_WAITING)
+
     status_change_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -117,6 +107,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -127,18 +118,28 @@ class OrderItem(models.Model):
         verbose_name_plural = _('Order items')
         ordering = ('id',)
 
-    # def __unicode__(self):
-    #     return u'%d units of %s' % (self.quantity, self.product.__class__.__name__)
-
     @property
     def total_price(self):
         return self.quantity * self.product.price
 
-    # @property
-    # def product(self):
-    #     return self.content_type.get_object_for_this_type(pk=self.object_pk)
-    #
-    # @product.setter
-    # def product(self, product):
-    #     self.content_type = Product.objects.get_for_model(type(product))
-    #     self.object_pk = product.pk
+
+class Payment(models.Model):
+    STATUS_INITIAL = 1
+    STATUS_PROCESSING = 2
+    STATUS_CONFIRMED = 3
+    STATUS_TYPE_CHOICES = [
+        (STATUS_INITIAL, _('initial')),
+        (STATUS_PROCESSING, _('processing')),
+        (STATUS_CONFIRMED, _('confirmed')),
+    ]
+    owner = models.ForeignKey(UserProfile, on_delete=models.RESTRICT)
+    order = models.ForeignKey(Order, verbose_name=_('order'), on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
+    expired_at = models.DateTimeField(verbose_name=_('expired at'), null=True, blank=True)
+    due_at = models.DateTimeField(verbose_name=_('due at'), null=True, blank=True)
+    fulfilled_at = models.DateTimeField(verbose_name=_('fulfilled at'), null=True, blank=True)
+    amount = models.PositiveIntegerField(default=0, verbose_name=_('amount'))
+    status = models.PositiveSmallIntegerField(verbose_name=_('status'), choices=STATUS_TYPE_CHOICES,
+                                              default=STATUS_INITIAL)
+    status_change_date = models.DateTimeField(auto_now_add=True)

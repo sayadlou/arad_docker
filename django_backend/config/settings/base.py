@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
-    'azbankgateways',
     'apps.core',
     'apps.blog',
     'apps.learning',

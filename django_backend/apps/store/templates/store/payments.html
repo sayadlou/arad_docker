@@ -35,7 +35,7 @@
                         مبلغ سفارش
                         {{ order.total_price }}
                     </h1>
-                    <form autocomplete=off method="post" action="{% url 'store:payments' %}">
+                    <form autocomplete=off method="post" action="{% url 'store:orders' %}">
                         {% csrf_token %}
                         <input type="text" hidden name="order_id" value="{{ order.id }}">
                         <input type="submit" value="{% trans 'Make Payment' %}">
