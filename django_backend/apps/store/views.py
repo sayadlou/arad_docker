@@ -128,7 +128,7 @@ class PaymentListAddView(LoginRequiredMixin, View):
         data = {
             "merchant_id": ZARINPAL_MERCHANT_CODE,
             "amount": int(order.total_price),
-            "callback_url": f"{request.get_host()}/store/payment/{id}",
+            "callback_url": f"http://{request.get_host()}/store/payment/{id}",
             "description": f"پرداخت",
             'mobile': order.owner.mobile,
             'email': order.owner.email,
