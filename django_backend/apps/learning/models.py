@@ -41,7 +41,7 @@ class Post(ProductBaseModel):
     view = models.BigIntegerField(null=True, blank=True, default=0)
     tags = models.CharField(max_length=200)
     pub_date = models.DateField(_("Date"), default=datetime.date.today)
-    picture = models.ImageField(null=True, blank=True, upload_to='learning/picture')
+    picture = models.ImageField(upload_to='learning/picture')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     video = models.ForeignKey('VideoFile', on_delete=models.CASCADE, null=True, blank=True)
     attachment = models.FileField(null=True, blank=True, storage=learning_attachments_path)

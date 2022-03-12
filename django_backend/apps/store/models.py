@@ -17,7 +17,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=0)
     max_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
     min_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
-    purchaser = models.ManyToManyField(UserProfile)
+    purchaser = models.ManyToManyField(UserProfile,blank=True)
 
     def __str__(self):
         return f"{self.title}"

@@ -149,29 +149,6 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "/image"
 
-AZ_IRANIAN_BANK_GATEWAYS = {
-    'GATEWAYS': {
-
-        'ZARINPAL': {
-            'MERCHANT_CODE': os.environ.get('ZARINPAL_MERCHANT_CODE'),
-        },
-        'IDPAY': {
-            'MERCHANT_CODE': os.environ.get('IDPAY_MERCHANT_CODE'),
-            'METHOD': 'POST',  # GET or POST
-            'X_SANDBOX': 1,  # 0 disable, 1 active
-        },
-    },
-    'IS_SAMPLE_FORM_ENABLE': True,  # اختیاری و پیش فرض غیر فعال است
-    'DEFAULT': 'IDPAY',
-    'CURRENCY': 'IRR',  # اختیاری
-    'TRACKING_CODE_QUERY_PARAM': 'tc',  # اختیاری
-    'TRACKING_CODE_LENGTH': 16,  # اختیاری
-    'SETTING_VALUE_READER_CLASS': 'azbankgateways.readers.DefaultReader',  # اختیاری
-    'BANK_PRIORITIES': [
-        'BMI',
-        'SEP',
-        # and so on ...
-    ],  # اختیاری
-}
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ZARINPAL_MERCHANT_CODE = os.environ.get('ZARINPAL_MERCHANT_CODE')
+ZARINPAL_REQUEST_URL  = 'https://api.zarinpal.com/pg/v4/payment/request.json'
+ZARINPAL_REQUEST_REDIRECT  = 'https://www.zarinpal.com/pg/StartPay'

@@ -15,6 +15,7 @@ from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
 from ..store.models import CartItem, Order, OrderItem, Payment
+from ...config.settings.base import ZARINPAL_MERCHANT_CODE, ZARINPAL_REQUEST_URL, ZARINPAL_REQUEST_REDIRECT
 
 
 def print_attributes(obj):
@@ -121,23 +122,34 @@ class PaymentListAddView(LoginRequiredMixin, View):
         return render(request=self.request, template_name="store/payments.html", context=context)
 
     def post(self, request, *args, **kwargs):
+        order_id = request.POST['order_id']
+        order = get_object_or_404(Order, owner=request.user, pk=order_id)
         id = uuid4()
         data = {
-            "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
-            "amount": 10000,
+            "merchant_id": ZARINPAL_MERCHANT_CODE,
+            "amount": order.total_price,
             "callback_url": f"{request.get_host()}/store/payment/{id}",
-            "description": "توضیحات"
+            "description": f"پرداخت",
+            'mobile': order.owner.mobile,
+            'email': order.owner.email,
+
         }
         headers = {
             'Content-Type': 'application/json',
             'accept': 'application/json'
         }
-        response = requests.post('https://api.zarinpal.com/pg/v4/payment/request.json', data=json.dumps(data),
+        response = requests.post(ZARINPAL_REQUEST_URL, data=json.dumps(data),
                                  headers=headers)
         response_data = response.json()
         if response.status_code == 200 and response_data["data"].get('authority', None):
             if response_data["data"].get('code', None) == 100:
-                return redirect(f'https://www.zarinpal.com/pg/StartPay/{response_data["data"]["authority"]}')
+                payment = Payment()
+                payment.id = id
+                payment.owner = request.user
+                payment.order = order
+                payment.amount = order.total_price
+                payment.save()
+                return redirect(f'{ZARINPAL_REQUEST_REDIRECT}/{response_data["data"]["authority"]}')
             # todo : add log
         return HttpResponseBadRequest
 
