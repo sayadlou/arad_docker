@@ -15,7 +15,7 @@ from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
 from ..store.models import CartItem, Order, OrderItem, Payment
-from ...config.settings.base import ZARINPAL_MERCHANT_CODE, ZARINPAL_REQUEST_URL, ZARINPAL_REQUEST_REDIRECT
+from config.settings.base import ZARINPAL_MERCHANT_CODE, ZARINPAL_REQUEST_URL, ZARINPAL_REQUEST_REDIRECT
 
 
 def print_attributes(obj):
