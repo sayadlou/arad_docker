@@ -132,8 +132,8 @@ class PaymentListAddView(LoginRequiredMixin, View):
             "description": f"پرداخت",
             'mobile': order.owner.mobile,
             'email': order.owner.email,
-
         }
+        print(data['callback_url'])
         headers = {
             'Content-Type': 'application/json',
             'accept': 'application/json'
@@ -141,6 +141,9 @@ class PaymentListAddView(LoginRequiredMixin, View):
         response = requests.post(ZARINPAL_REQUEST_URL, data=json.dumps(data),
                                  headers=headers)
         response_data = response.json()
+        print(data['merchant_id'])
+        print(response_data)
+        print(response_data["data"])
         if response.status_code == 200 and response_data["data"].get('authority', None):
             if response_data["data"].get('code', None) == 100:
                 payment = Payment()
@@ -156,7 +159,8 @@ class PaymentListAddView(LoginRequiredMixin, View):
 
 class PaymentConfirmView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        payment = get_object_or_404(Payment, Payment=request.user, pk=kwargs["pk"])
-
-        context = {'order': payment}
-        return render(request=request, template_name="store/payment.html", context=context)
+        # payment = get_object_or_404(Payment, Payment=request.user, pk=kwargs["pk"])
+        #
+        # context = {'order': payment}
+        # return render(request=request, template_name="store/payment.html", context=context)
+        return HttpResponse("salam")
