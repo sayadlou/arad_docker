@@ -12,7 +12,7 @@ then
 fi
 
 #python manage.py flush --no-input
-python manage.py makemigrations azbankgateways
+python manage.py makemigrations
 python manage.py collectstatic  --noinput
 python manage.py migrate
 
