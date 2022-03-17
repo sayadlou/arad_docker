@@ -19,6 +19,7 @@ from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
 from ..store.models import CartItem, Order, OrderItem, Payment
+from config.settings.base import MINIMUM_ORDER_AMOUNT
 
 logger = logging.getLogger(__name__)
 
@@ -130,9 +131,9 @@ class PaymentListAddView(LoginRequiredMixin, View):
         order_id = request.POST['order_id']
         order = get_object_or_404(Order, owner=request.user, pk=order_id)
 
-        # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
-        user_mobile_number = '+989112221234'  # اختیاری
-
+        if order.total_price <= MINIMUM_ORDER_AMOUNT:
+            messages.success(request, _('minimum order amount should be more than 100,000 IRR'))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         factory = bankfactories.BankFactory()
         try:
             bank = factory.auto_create(

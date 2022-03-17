@@ -3,6 +3,7 @@ from decimal import Decimal
 from random import random
 from uuid import uuid4
 
+from azbankgateways.models import Bank
 from django.db import models
 from django.db.models import Sum, Func, F, Count
 from django.utils.translation import ugettext_lazy as _
@@ -17,7 +18,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=0)
     max_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
     min_order_quantity = models.DecimalField(max_digits=12, decimal_places=0)
-    purchaser = models.ManyToManyField(UserProfile,blank=True)
+    purchaser = models.ManyToManyField(UserProfile, blank=True)
 
     def __str__(self):
         return f"{self.title}"
@@ -143,3 +144,4 @@ class Payment(models.Model):
     status = models.PositiveSmallIntegerField(verbose_name=_('status'), choices=STATUS_TYPE_CHOICES,
                                               default=STATUS_INITIAL)
     status_change_date = models.DateTimeField(auto_now_add=True)
+    transaction = models.ForeignKey(Bank, on_delete=models.RESTRICT, null=True, blank=True)
