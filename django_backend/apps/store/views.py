@@ -7,11 +7,11 @@ import logging
 
 from azbankgateways import bankfactories
 from azbankgateways.exceptions import AZBankGatewaysException
-from azbankgateways.models import BankType
+from azbankgateways import models as bank_models, default_settings as settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
@@ -136,11 +136,11 @@ class PaymentListAddView(LoginRequiredMixin, View):
         factory = bankfactories.BankFactory()
         try:
             bank = factory.auto_create(
-                BankType.ZARINPAL)  # or factory.create(bank_models.BankType.BMI) or set identifier
+                bank_models.BankType.ZARINPAL)  # or factory.create(bank_models.BankType.BMI) or set identifier
             bank.set_request(request)
             bank.set_amount(int(order.total_price))
             # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-            bank.set_client_callback_url(reverse('callback'))
+            bank.set_client_callback_url(reverse('callback-gateway'))
             bank.set_mobile_number(order.owner.mobile)
 
             # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
@@ -163,3 +163,26 @@ class PaymentConfirmView(LoginRequiredMixin, View):
         else:
             pass
         return HttpResponse("salam")
+
+
+def callback_gateway_view(request):
+    tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
+    if not tracking_code:
+        logging.debug("این لینک معتبر نیست.")
+        raise Http404
+
+    try:
+        bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
+    except bank_models.Bank.DoesNotExist:
+        logging.debug("این لینک معتبر نیست.")
+        raise Http404
+
+    # در این قسمت باید از طریق داده هایی که در بانک رکورد وجود دارد، رکورد متناظر یا هر اقدام مقتضی دیگر را انجام دهیم
+    if bank_record.is_success:
+        # پرداخت با موفقیت انجام پذیرفته است و بانک تایید کرده است.
+        # می توانید کاربر را به صفحه نتیجه هدایت کنید یا نتیجه را نمایش دهید.
+        return HttpResponse("پرداخت با موفقیت انجام شد.")
+
+    # پرداخت موفق نبوده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.
+    return HttpResponse(
+        "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.")
