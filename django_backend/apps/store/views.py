@@ -3,7 +3,11 @@ from pprint import pprint
 import requests
 import json
 from uuid import uuid4
+import logging
 
+from azbankgateways import bankfactories
+from azbankgateways.exceptions import AZBankGatewaysException
+from azbankgateways.models import BankType
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -15,7 +19,8 @@ from django.utils.translation import gettext as _
 
 from .forms import CartItemForm
 from ..store.models import CartItem, Order, OrderItem, Payment
-from config.settings.base import ZARINPAL_MERCHANT_CODE, ZARINPAL_REQUEST_URL, ZARINPAL_REQUEST_REDIRECT
+
+logger = logging.getLogger(__name__)
 
 
 def print_attributes(obj):
@@ -124,43 +129,37 @@ class PaymentListAddView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         order_id = request.POST['order_id']
         order = get_object_or_404(Order, owner=request.user, pk=order_id)
-        id = uuid4()
-        data = {
-            "merchant_id": ZARINPAL_MERCHANT_CODE,
-            "amount": int(order.total_price),
-            "callback_url": f"http://{request.get_host()}/store/payment/{id}",
-            "description": f"پرداخت",
-            'mobile': order.owner.mobile,
-            'email': order.owner.email,
-        }
-        print(data['callback_url'])
-        headers = {
-            'Content-Type': 'application/json',
-            'accept': 'application/json'
-        }
-        response = requests.post(ZARINPAL_REQUEST_URL, data=json.dumps(data),
-                                 headers=headers)
-        response_data = response.json()
-        print(data['merchant_id'])
-        print(response_data)
-        print(response_data["data"])
-        if response.status_code == 200 and response_data["data"].get('authority', None):
-            if response_data["data"].get('code', None) == 100:
-                payment = Payment()
-                payment.id = id
-                payment.owner = request.user
-                payment.order = order
-                payment.amount = order.total_price
-                payment.save()
-                return redirect(f'{ZARINPAL_REQUEST_REDIRECT}/{response_data["data"]["authority"]}')
-            # todo : add log
-        return HttpResponseBadRequest
+
+        # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
+        user_mobile_number = '+989112221234'  # اختیاری
+
+        factory = bankfactories.BankFactory()
+        try:
+            bank = factory.auto_create(
+                BankType.ZARINPAL)  # or factory.create(bank_models.BankType.BMI) or set identifier
+            bank.set_request(request)
+            bank.set_amount(int(order.total_price))
+            # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
+            bank.set_client_callback_url(reverse('callback-gateway'))
+            bank.set_mobile_number(order.owner.mobile)
+
+            # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
+            # پرداخت برقرار کنید.
+            bank_record = bank.ready()
+
+            # هدایت کاربر به درگاه بانک
+            return bank.redirect_gateway()
+        except AZBankGatewaysException as e:
+            logging.critical(e)
+            # TODO: redirect to failed page.
+            raise e
 
 
 class PaymentConfirmView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        # payment = get_object_or_404(Payment, Payment=request.user, pk=kwargs["pk"])
-        #
-        # context = {'order': payment}
-        # return render(request=request, template_name="store/payment.html", context=context)
+        payment = get_object_or_404(Payment, owner=request.user, pk=kwargs['pk'])
+        if request.GET['Status'] and request.GET['Status'] == 'OK':
+            pass
+        else:
+            pass
         return HttpResponse("salam")

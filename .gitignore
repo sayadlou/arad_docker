@@ -66,3 +66,4 @@ django/.coverage
 /django_backend/db.sqlite3
 /django_backend/static/
 /django_backend/media/
+/django_backend/general.log/

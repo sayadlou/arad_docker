@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
+    'azbankgateways',
     'apps.core',
     'apps.blog',
     'apps.learning',
@@ -149,6 +150,44 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "/image"
 
-ZARINPAL_MERCHANT_CODE = os.environ.get('ZARINPAL_MERCHANT_CODE')
-ZARINPAL_REQUEST_URL  = 'https://api.zarinpal.com/pg/v4/payment/request.json'
-ZARINPAL_REQUEST_REDIRECT  = 'https://www.zarinpal.com/pg/StartPay'
+AZ_IRANIAN_BANK_GATEWAYS = {
+    'GATEWAYS': {
+        'ZARINPAL': {
+            'MERCHANT_CODE': os.environ.get('ZARINPAL_MERCHANT_CODE'),
+        },
+    },
+    'DEFAULT': 'ZARINPAL',
+    'CURRENCY': 'IRR',
+    'TRACKING_CODE_QUERY_PARAM': 'tc',
+    'TRACKING_CODE_LENGTH': 16,
+}
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} ({levelname}) - {name} - {message}',
+            'style': '{'
+        }
+    }
+}
