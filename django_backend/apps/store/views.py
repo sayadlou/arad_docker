@@ -140,7 +140,7 @@ class PaymentListAddView(LoginRequiredMixin, View):
             bank.set_request(request)
             bank.set_amount(int(order.total_price))
             # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-            bank.set_client_callback_url(reverse('callback-gateway'))
+            bank.set_client_callback_url(reverse('callback'))
             bank.set_mobile_number(order.owner.mobile)
 
             # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
