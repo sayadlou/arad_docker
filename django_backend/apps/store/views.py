@@ -13,7 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.utils.translation import gettext as _
 
@@ -140,7 +140,7 @@ class PaymentListAddView(LoginRequiredMixin, View):
             bank.set_request(request)
             bank.set_amount(int(order.total_price))
             # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-            bank.set_client_callback_url(reverse('callback-gateway'))
+            bank.set_client_callback_url(reverse_lazy('callback-gateway'))
             bank.set_mobile_number(order.owner.mobile)
 
             # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
