@@ -144,4 +144,4 @@ class Payment(models.Model):
     status = models.PositiveSmallIntegerField(verbose_name=_('status'), choices=STATUS_TYPE_CHOICES,
                                               default=STATUS_INITIAL)
     status_change_date = models.DateTimeField(auto_now_add=True)
-    # transaction = models.ForeignKey(Bank, on_delete=models.RESTRICT, null=True, blank=True)
+    transaction = models.ForeignKey(Bank, on_delete=models.RESTRICT, null=True, blank=True)
