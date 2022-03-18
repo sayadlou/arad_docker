@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('azbankgateways', '0004_auto_20220318_0959'),
+        ('azbankgateways', '__last__'),
         ('store', '0001_initial'),
     ]
 
